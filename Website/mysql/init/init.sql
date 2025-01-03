@@ -1,17 +1,28 @@
--- 创建用户表
-CREATE TABLE IF NOT EXISTS users (
+-- Ensure the database exists and use it
+CREATE DATABASE IF NOT EXISTS my_local_database;
+USE my_local_database;
+
+-- Table to store UCL buildings and accommodations
+CREATE TABLE IF NOT EXISTS places (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    gmap_id VARCHAR(255) NOT NULL, -- Unique ID from Google Maps
+    type ENUM('Buildings', 'Accommodation') NOT NULL, -- Place type
+    display_name VARCHAR(255), -- Name of the place
+    address TEXT, -- Address of the place
+    location POINT NOT NULL, -- Latitude and longitude of the place
+    UNIQUE KEY unique_gmap_id (gmap_id) -- Ensure gmap_id is unique
 );
 
--- 创建产品表
-CREATE TABLE IF NOT EXISTS products (
+-- Table to store routes between buildings and accommodations
+CREATE TABLE IF NOT EXISTS routes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    building_id INT NOT NULL, -- Foreign key to the buildings
+    accommodation_id INT NOT NULL, -- Foreign key to the accommodations
+    duration INT NOT NULL, -- Travel duration in seconds
+    distance_meters INT NOT NULL, -- Distance in meters
+    encoded_polyline TEXT NOT NULL, -- Encoded polyline for the route
+    FOREIGN KEY (building_id) REFERENCES places(id),
+    FOREIGN KEY (accommodation_id) REFERENCES places(id),
+    INDEX (building_id), -- Index for foreign key
+    INDEX (accommodation_id) -- Index for foreign key
 );
