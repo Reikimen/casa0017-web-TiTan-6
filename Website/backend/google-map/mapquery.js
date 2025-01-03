@@ -1,126 +1,106 @@
 import { config } from 'dotenv';
 import axios from 'axios';
-import { insertOrupdatePlace } from '../data/dataFunctions'
+import { insertOrupdatePlace, getPlaceIdByGMapId, insertRoute } from './dataFunctions';
 
 config();
-const apiKey = process.env.GMAP_KEY; 
-const searchendpoint = process.env.GMAP_SEARCH_ENDPOINT;
-const routesendpoint = process.env.GMAP_ROUTES_ENDPOINT;
+const apiKey = process.env.GMAP_KEY;
+const searchEndpoint = process.env.GMAP_SEARCH_ENDPOINT;
+const routesEndpoint = process.env.GMAP_ROUTES_ENDPOINT;
 
-// Returning the JSON API For All UCL buildings with their names and locations
+// Fetch building data from Google Maps
 export async function getUCLBuildings() {
     try {
-        console.log(apiKey);
-        const response = await axios.post(searchendpoint, { "textQuery" : "UCL buildings" } , {
-            headers:  {
-                "Content-Type" : "application/json",
-                "X-Goog-Api-Key" : apiKey,
-                "X-Goog-FieldMask" : "places.displayName,places.formattedAddress,places.id,places.location"
+        const response = await axios.post(
+            searchEndpoint,
+            { textQuery: "UCL buildings" },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": apiKey,
+                }
             }
-        });
-        return response.data;
-      } 
-      catch (error) {
-        console.error('Error fetching UCL buildings:', error);
-        throw error;
-      }
+        );
+        return response.data.places || [];
+    } catch (error) {
+        console.error('Error fetching UCL buildings:', error.message);
+        return [];
+    }
 }
 
-// Returning the JSON API for All the UCL Accommodations with their names and locations
+// Fetch accommodation data from Google Maps
 export async function getAccommodations() {
     try {
-        console.log(apiKey);
-        const response = await axios.post(searchendpoint, { "textQuery" : "student halls london ucl" }, {
-            headers:  {
-                "Content-Type" : "application/json",
-                "X-Goog-Api-Key" : apiKey,
-                "X-Goog-FieldMask" : "places.displayName,places.formattedAddress,places.id,places.location"
-            }
-        });
-        return response.data;
-      } 
-      catch (error) {
-        console.error('Error fetching UCL buildings:', error);
-        throw error;
-      }
-}
-
-export async function getWalkingRoutesFor(location, duration) {
-        const accommodations = await getAccommodations();
-        let routes = [];
-        for (const accommodation of accommodations.places) {
-            try {
-                const response = await axios.post(routesendpoint, {
-                    origin: {
-                        location: {
-                            latLng: location
-                        }
-                    },
-                    destination: {
-                        location: {
-                            latLng: accommodation.location
-                        }
-                    },
-                    travelMode: "WALK"
-                }, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-Goog-Api-Key": apiKey,
-                        "X-Goog-FieldMask": "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline"
-                    }
-                });
-                
-                const resRoutes = response.data;
-                for(const r of resRoutes.routes)
-                {
-                    console.log("Each Route:", r);
-                    if (parseInt(r.duration) <= duration)
-                    {
-                        routes.push(r);
-                    }
+        const response = await axios.post(
+            searchEndpoint,
+            { textQuery: "student halls london ucl" },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": apiKey,
                 }
-            } catch (error) {
-                throw error;
             }
-            // axios.post(routesendpoint, {
-            //     origin: {
-            //         location: {
-            //             latLng: location
-            //         }
-            //     },
-            //     destination: {
-            //         location: {
-            //             latLng: accommodation.location
-            //         }
-            //     },
-            //     travelMode: "WALK"
-            // }, {
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //         "X-Goog-Api-Key": apiKey,
-            //         "X-Goog-FieldMask": "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline"
-            //     }
-            // }).then((res) => {
-            //     if (res.data.duration <= duration)
-            //     {
-            //         routes.push(res.data);
-            //     }
-            // }).catch((err) => { throw err });
-        }
-        return routes;
+        );
+        return response.data.places || [];
+    } catch (error) {
+        console.error('Error fetching accommodations:', error.message);
+        return [];
+    }
 }
 
+// Fetch walking routes
+export async function getWalkingRoutesFor(location, durationLimit) {
+    try {
+        const response = await axios.post(
+            routesEndpoint,
+            {
+                origin: { location: { latLng: location } },
+                destination: { travelMode: "WALK" },
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Goog-Api-Key": apiKey,
+                }
+            }
+        );
+        return response.data.routes.filter(r => r.duration <= durationLimit);
+    } catch (error) {
+        console.error('Error fetching routes:', error.message);
+        return [];
+    }
+}
+
+// Update database with data
 export async function updateDataBase() {
-    var buildings = getUCLBuildings();
-    for(const place in buildings.places)
-    {
-        insertOrupdatePlace(place, "Buildings");
+    try {
+        const buildings = await getUCLBuildings();
+        const accommodations = await getAccommodations();
+
+        for (const building of buildings) {
+            await insertOrupdatePlace(building, "Buildings");
+        }
+
+        for (const accommodation of accommodations) {
+            await insertOrupdatePlace(accommodation, "Accommodation");
+        }
+
+        for (const building of buildings) {
+            const buildingId = await getPlaceIdByGMapId(building.id, "Buildings");
+            const routes = await getWalkingRoutesFor(building.location.latLng, 900);
+            for (const route of routes) {
+                const accommodation = accommodations.find(acc =>
+                    acc.location.latitude === route.destination.location.latitude &&
+                    acc.location.longitude === route.destination.location.longitude
+                );
+                if (accommodation) {
+                    const accommodationId = await getPlaceIdByGMapId(accommodation.id, "Accommodation");
+                    await insertRoute(buildingId, accommodationId, route.duration, route.distanceMeters, route.polyline.encodedPolyline);
+                }
+            }
+        }
+
+        console.log("Database updated successfully.");
+    } catch (error) {
+        console.error("Error updating database:", error.message);
     }
-    var accommodations = getAccommodations();
-    for(const place in accommodations.places)
-    {
-        insertOrupdatePlace(place, "Accommodation");
-    }
-    //Todo : call getWalkingRoutesFor function for each building with appropriate durations and add results to routes table
-    // consider that you should write a query to get actuall database id for each place and set the actual id into forignkey columns.
 }
