@@ -1,4 +1,4 @@
-import db from './databaseconnection';
+import {createConnection} from './databaseconnection.mjs';
 
 const placeTypes = {
     Buildings: 'Buildings',
@@ -6,13 +6,16 @@ const placeTypes = {
 };
 
 // Function to execute SQL queries
-export async function executeQuery(query, params = []) {
-    return new Promise((resolve, reject) => {
-        db.query(query, params, (error, results) => {
-            if (error) return reject(error);
-            resolve(results);
-        });
-    });
+export async function executeQuery(sql, values = []) {
+    
+    try {
+        const connection = await createConnection();
+        const [result, fields] = await connection.execute(sql, values);
+        return result;
+        
+      } catch (err) {
+        console.log(err);
+      }
 }
 
 // Function to insert or update a place
@@ -28,13 +31,14 @@ export async function insertOrupdatePlace(place, placeType) {
     `;
     const params = [
         place.id,
-        place.displayName,
+        place.displayName.text,
         placeType,
         place.formattedAddress,
         place.location.latitude,
         place.location.longitude,
     ];
-    await executeQuery(query, params);
+    const result = await executeQuery(query, params);
+    console.log(result,'---------');
 }
 
 // Function to get place ID by Google Maps ID and type

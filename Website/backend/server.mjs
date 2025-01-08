@@ -1,11 +1,11 @@
-import  { config } from 'dotenv';
+// import  { config } from 'dotenv';
 import express from 'express';
-import { getUCLBuildings, getAccommodations, getWalkingRoutesFor } from './google-map/mapquery.js'
-
-config();
+import { getUCLBuildings, getAccommodations, getWalkingRoutesFor } from './google-map/mapquery.mjs'
+import * as Config from './data/env.mjs';
+// config();
 const app = express();
 app.use(express.json());
-const PORT = process.env.PORT;
+const PORT = Config.PORT;
 
 //Listen for requests from the client
 app.listen(PORT, () => {
