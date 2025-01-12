@@ -1,5 +1,5 @@
 ---
-typora-root-url: ./Img
+typora-root-url: ./
 ---
 
 # UCL Accommodation Finder
@@ -38,7 +38,7 @@ The ‘UCL Apartment Helper’ web application developed by CASA Titan 6 enables
 
 When a users clicks on the website, the main content of the web page is displayed as shown below before any action is taken:
 
-<img src="/Default-page.png" alt="Default-page" style="zoom: 67%;" />
+<img src="/img/Default-page.png" alt="Default-page" style="zoom: 67%;" />
 
 
 
@@ -46,7 +46,7 @@ When a users clicks on the website, the main content of the web page is displaye
 
 After the user selects the UCL building they want to use as a commuting location and limits the commuting time, the webpage prompts you with some recommended UCL student accommodation.
 
-<img src="/Building-Selected.png" alt="Building-Selected" style="zoom:67%;" />
+<img src="/img/Building-Selected.png" alt="Building-Selected" style="zoom:67%;" />
 
 
 
@@ -54,7 +54,7 @@ After the user selects the UCL building they want to use as a commuting location
 
 After selecting a flat and commuting location (UCL building), the user is given a recommended walking commute to school.
 
-<img src="/recommended-route.png" alt="recommended-route" style="zoom:67%;" />
+<img src="/img/recommended-route.png" alt="recommended-route" style="zoom:67%;" />
 
 
 
@@ -62,7 +62,7 @@ After selecting a flat and commuting location (UCL building), the user is given 
 
 Additionally, as the project is explicitly developed for UCL students, a secondary page navigation was included in the header to allow users to input their UCL student account. This feature is designed to facilitate future functionality expansion. 
 
-<img src="/final-web.png" alt="final-web" style="zoom:42%;" />
+<img src="/img/final-web.png" alt="final-web" style="zoom:42%;" />
 
 Only if this project gains support from UCL administration and access to the student information database is provided, the function of the webpage can be further enhanced to deliver personalised services tailored to the needs of each UCL student.
 
@@ -308,7 +308,7 @@ mysql:
 
 ## Running Successfully:
 
-![docker-based-framework](/docker-based-framework.png)
+![docker-based-framework](/img/docker-based-framework.png)
 
 
 
