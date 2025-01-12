@@ -5,6 +5,12 @@
 This is the Final assessment template for CASA0017 - Please use this template and edit the relevant sections to personalise.
 This section has a short introduction to what the website is about and what research problem the site is solving.  Remeber this file showcases your website source code so use it to sell what you can do as a group or showcase in a future portfolio. 
 
+## Our valuable Contributors👩‍💻👨‍💻 :
+
+<a href="https://github.com/Reikimen/casa0017-web-TiTan-6/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=Reikimen/casa0017-web-TiTan-6" />
+</a>
+
 # Intro of our Website
 
 Use this section to show us what your Website is about. Include a Screenshot to the Website in this README file, link to the various frameworks you've used.  If you want to show off your website you can add a Gif of you interacting with your site.   Emojis are also fun to include as well 😄
@@ -12,12 +18,28 @@ Use this section to show us what your Website is about. Include a Screenshot to 
 Look at some other Websites online in GitHub and see how they use the README File to showcase thier site.  Good examples are:
 
 - https://github.com/smaranjitghose/awesome-portfolio-websites
+
 - https://github.com/gohugoio/hugo    
+
 - https://github.com/academicpages/academicpages.github.io
 
-#  Replace the Tags on the side menu of GitHub
+  
 
-Put some tags in to make your site more searchable in GitHub
+<div align="center">
+<a href="https://github.com/smaranjitghose/awesome-portfolio-websites"><img src="https://badges.frapsoft.com/os/v1/open-source.svg?v=103"></a>
+<a href="https://github.com/smaranjitghose/awesome-portfolio-websites"><img src="https://img.shields.io/badge/Built%20by-developers%20%3C%2F%3E-0059b3"></a>
+<a href="https://github.com/smaranjitghose/awesome-portfolio-websites"><img src="https://img.shields.io/static/v1.svg?label=Contributions&message=Welcome&color=yellow"></a>
+<a href="https://github.com/smaranjitghose/"><img src="https://img.shields.io/badge/Maintained%3F-yes-brightgreen.svg?v=103"></a>
+<a href="https://github.com/smaranjitghose/awesome-portfolio-websites/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?v=103"></a>
+
+
+
+
+
+
+
+
+
 
 # For Developers
 > Attention! Developers on Win!
@@ -68,7 +90,7 @@ After closing the Ubuntu virtual machine, you can view the virtual machine name 
 Start PowerShell in administrator mode and run the following command:
 
     set-vmvideo -vmname <vm-name> -horizontalresolution:<2560> -verticalresolution:<1600> -resolutiontype single
-
+    
     set-vm <vm-name> -EnhancedSessionTransportType HVSocket 
 
 
@@ -123,5 +145,5 @@ mysql:
 Dankao Chen:
 
     zczqdc2@ucl.ac.uk
-
+    
     dankaochen2002@gmail.com
