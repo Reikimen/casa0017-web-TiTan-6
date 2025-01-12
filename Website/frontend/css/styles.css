@@ -1,108 +1,140 @@
- /* This is your main style file */
+/* CSS for Apartment Helper */
 
- body {
+.body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f5f5f5;
+    background-color: #ffffff; 
+    color: #333;
 }
 
-.container {
-    width: 60%;
-    max-width: 700px;
-    background-color: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
+/* Styles the header element */
+.header {
+    text-align: center; /* Centers the text in the header */
+    background-color: #000000; /* Dark background color for the header */
+    color: white;        /* White text color for the header */
+    padding: 20px 0;    /* Padding on the top and bottom of the header */
 }
 
-header {
+.header h1 {        /* Styles the h1 element within the header，The <h1> element defines a level 1 heading */
+    margin: 0;      /* Removes default margin */
+}
+
+.header p {             /* Styles the p element within the header，while the <p> element defines a paragraph. */
+    font-size: 18px;        /* Larger font size */
+}
+
+
+.ucl-title {
+    font-size: 2em; 
+    margin-left: 15ch; 
+    margin-right: 5ch; 
+}
+
+.helper-title {
+    font-size: 1em;
+    line-height: 2em;
+}
+
+/* Styles the nav element with a dark background color, padding, and centered text. */
+.nav {
+    background-color: #444;
+    padding: 10px;
     text-align: center;
-    padding: 20px 0;
-    font-size: 1.5em;
+}
+/* Removes default list styling, margin, and padding from the ul element. */
+.nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+/* Displays list items inline with some margin for spacing. */
+.nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+/* Styles the links with white color, no text decoration, and bold font weight. */
+.nav ul li a {
+    color: white;
+    text-decoration: none;
     font-weight: bold;
 }
 
-.description {
-    background-color: #f0f0f0;
-    padding: 15px;
-    text-align: center;
-    font-size: 1em;
+
+/* .container {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fcfbe3;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+} */
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
+
 
 .search-section {
     display: flex;
-    align-items: center;
-    padding: 10px;
+    justify-content: space-between;
+    margin: 20px 0;
     gap: 10px;
-    justify-content: center;
 }
 
-.search-section input[type="text"] {
-    flex: 1;
-    padding: 8px;
+.search-section input[type="text"],
+.search-section select {
+    padding: 5px;
     font-size: 1em;
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .search-section button {
-    padding: 8px 16px;
-    font-size: 1em;
-    background-color: #f0c040;
+    padding: 5px 15px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    cursor: pointer;
     border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.search-section button:hover {
+    background-color: #0056b3;
 }
 
 .main-content {
     display: flex;
-    padding: 10px;
+    justify-content: space-between;
     gap: 10px;
 }
 
 .map-section {
-    background-color: #e0e0e0;
-    height: 300px;
-    width: 60%; 
-    position: relative;
+    flex: 3;
+    height: 400px;
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
+    position: relative;
 }
 
 .sidebar {
-    width: 40%; 
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.distance-section {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.distance-section button {
-    padding: 5px 10px;
-    background-color: #f0c040;
-    border: none;
-    cursor: pointer;
-    font-size: 0.9em;
-    border-radius: 4px;
-}
-
 .info-section {
-    background-color: #f9f9f9;
     padding: 10px;
-    text-align: center;
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -110,12 +142,69 @@ header {
 .info-section a {
     color: #007bff;
     text-decoration: none;
-    font-size: 0.9em;
 }
 
-footer {
-    background-color: #d3d3d3;
-    padding: 15px;
+.form {
+    background-color: rgb(175, 204, 227);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.form-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.form-side-image {
+    max-width: 540px;
+    border-radius: 5px;
+}
+
+.form-content {
+    flex: 1;
+}
+
+
+.form input {
+    display: block;
+    width: 94%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.form button {
+    display: block;
+    width: 100%;
+    background-color: rgb(240, 218, 241);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+/* Footer styling */
+.footer {
+    background-color: #333;
+    color: white;
     text-align: center;
-    font-size: 0.9em;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }

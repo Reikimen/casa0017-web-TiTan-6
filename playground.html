@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>登陆/注册页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e4e7ea;
+        }
+ 
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+ 
+        .form {
+            background-color: rgb(175, 204, 227);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+ 
+        .form input {
+            display: block;
+            width: 94%;
+            border: none;
+            border-bottom: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+ 
+        .form button {
+            display: block;
+            width: 100%;
+            background-color: rgb(240, 218, 241);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+ 
+        .form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+ 
+    </style>
+</head>
+<body>
+<div class="container">
+    <form class="form" id="login-form">
+        <h2>登陆</h2>
+        <label for="username">用户名</label>
+        <input type="text" id="username" name="username" placeholder="请输入用户名">
+        <label for="password">密码</label>
+        <input type="password" id="password" name="password" placeholder="请输入密码">
+        <button type="submit">登陆</button>
+        <p>没有账号？ <a href="#" id="register-link">马上注册</a></p>
+    </form>
+ 
+    <form class="form" id="register-form" style="display:none;">
+        <h2>注册</h2>
+        <label for="r-username">用户名</label>
+        <input type="text" id="r-username" name="username" placeholder="请输入用户名">
+        <label for="r-password">密码</label>
+        <input type="password" id="r-password" name="password" placeholder="请输入密码">
+        <label for="confirm-password">确认密码</label>
+        <input type="password" id="confirm-password" name="confirm-password" placeholder="请再次输入密码">
+        <button type="submit">注册</button>
+        <p>已有账号？ <a href="#" id="login-link">返回登陆</a></p>
+    </form>
+ 
+</div>
+ 
+<script>
+    const loginForm = document.getElementById('login-form');// 获取页面中的元素 const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');// 登录表单 const registerForm = document.getElementById('register-form');
+    const registerLink = document.getElementById('register-link');
+    const loginLink = document.getElementById('login-link');
+ 
+    registerLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+    });
+ 
+    loginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';// 登录链接的点击事件 loginLink.addEventListener('click', (e) => { e.preventDefault(); // 阻止默认事件 loginForm.style.display = 'block'; // 显示登录表单 registerForm.style.display = 'none'; // 隐藏注册表单 });
+ 
+//以上代码是一个简单的表单切换逻辑，根据两个链接的点击事件实现登录表单和注册表单的切换
+    });
+</script>
+</body>
+</html>

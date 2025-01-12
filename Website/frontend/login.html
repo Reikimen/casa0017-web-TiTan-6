@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accommodation Finder</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body class = "body">
+
+    <header class="header">
+        <h1>UCL Accommodation Finder </h1>
+        <p>Please Login or Regist Here!</p>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="login.html">Login/Register</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="form-section">
+            <img src="img/ucl_portico_welcome.png" alt="UCL Portico Welcome" class="form-side-image">
+            <!-- <div class="form-content"> -->
+                <form class="form" id="login-form">
+                    <h2>Login</h2>
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                    <button type="submit">Login</button>
+                    <p>Don't have an account? <a href="#" id="register-link">Register now</a></p>
+                </form>
+             
+                <form class="form" id="register-form" style="display:none;">
+                    <h2>Register</h2>
+                    <label for="r-username">Username</label>
+                    <input type="text" id="r-username" name="username" placeholder="Enter your username">
+                    <label for="r-password">Password</label>
+                    <input type="password" id="r-password" name="password" placeholder="Enter your password">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password">
+                    <button type="submit">Register</button>
+                    <p>Already have an account? <a href="#" id="login-link">Login here</a></p>
+                </form>
+            <!-- </div> -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>Contact: email@ucl.ac.uk | Github: www.casa.ucl.ac.uk</p>
+        <p>Twitter: @frogo | Current Location: UCL | Facebook Link</p>
+    </footer>
+
+    <script>
+        const loginForm = document.getElementById('login-form');// 获取页面中的元素 const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');// 登录表单 const registerForm = document.getElementById('register-form');
+        const registerLink = document.getElementById('register-link');
+        const loginLink = document.getElementById('login-link');
+     
+        registerLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+        });
+
+        loginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      alert('Login successful!');
+                  } else {
+                      alert('Login failed: ' + data.message);
+                  }
+              });
+        });
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('r-username').value;
+            const password = document.getElementById('r-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      alert('Registration successful!');
+                  } else {
+                      alert('Registration failed: ' + data.message);
+                  }
+              });
+        });
+        
+    </script>
+
+</body>
+
+</html>

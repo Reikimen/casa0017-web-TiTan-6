@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   mysql:
@@ -11,6 +11,8 @@ services:
       MYSQL_DATABASE: mydatabase
     volumes:
       - ./mysql/init:/docker-entrypoint-initdb.d
+      # - ./mysql/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/data:/var/lib/mysql  # Add this line to save the database data to the project's mysql folder
     restart: always
   
   backend:
@@ -33,6 +35,7 @@ services:
     
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
+    platform: linux/amd64
     container_name: phpmyadmin
     ports:
       - "8081:80" # 映射到宿主机的 8081 端口

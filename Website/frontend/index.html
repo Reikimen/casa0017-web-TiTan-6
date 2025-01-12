@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,140 +7,80 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
-<body>
+<body class = "body">
+
+    <header class="header">
+        <h1>UCL Accommodation Finder </h1>
+        <p>A usefull helper for UCL's students finding accommodation!</p>
+    </header>
+
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="login.html">Login/Register</a></li>
+        </ul>
+    </nav>
+
     <div class="container">
-        <header>
-            Accommodation Finder
-        </header>
-
-        <div class="description">
-            <p>Description of the website</p>
-        </div>
-
-        <!-- Search Section -->
         <div class="search-section">
-            <input type="text" placeholder="Destination" id="destination">
-            <button id="search-button">Search</button>
+            <div>
+                <label for="buildingsSelect">UCL building</label>
+                <select id="buildingsSelect">
+                    <option value="">Please select</option>
+                </select>
+            </div>
+            <div>
+                <label for="commuting-time">Commuting time</label>
+                <select id="commuting-time">
+                    <option value="10000">&gt;30 minutes</option>
+                    <option value="300">&lt;5 minutes</option>
+                    <option value="600">&lt;10 minutes</option>
+                    <option value="900">&lt;15 minutes</option>
+                    <option value="1200">&lt;20 minutes</option>
+                    <option value="1500">&lt;25 minutes</option>
+                    <option value="1800">&lt;30 minutes</option>
+                </select>
+            </div>
+            <!-- <button id="search-button">Search</button> -->
         </div>
 
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Map Section -->
             <div class="map-section" id="map">
                 <!-- Google Map will be inserted here -->
             </div>
 
-            <!-- Sidebar with Distance and Info Sections -->
             <div class="sidebar">
-                <!-- Distance Section -->
-                <div class="distance-section">
-                    <p>Distance</p>
-                    <button onclick="setDistance(400)">5 minutes</button>
-                    <button onclick="setDistance(800)">10 minutes</button>
-                    <button onclick="setDistance(1600)">20 minutes</button>
-                </div>
-
-                <!-- Selected Accommodation Info -->
                 <div class="info-section">
-                    <p>Selected Accommodation Info</p>
-                    <p id="accommodation-info">Hover over a location on the map to view details.</p>
-                    <a href="#" id="more-info-link">more info</a>
+                    <h5>Selected Building Info:</h5>
+                    <p>Building Name: <span id="origin"></span></p>
+                    <p>Address: <span id="originaddress"></span></p>
+                    <h5>Selected accommodation Info:</h5>
+                    <p>Accommodation Name: <span id="destination"></span></p>
+                    <p>Accommodation address: <span id="destinationaddress"></span></p>
+                    <p>Duration (in second): <span id="duration"></span></p>
+                    <p>Distance (in meter): <span id="distance"></span></p>
+                    <br />
+                    <p>Select a building and disired commuting time and hover over an accommodation on the map to view
+                        details.</p>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
         <footer>
-            Footer
+            Student housing information website:<br>
+            Student apartment reservation website:
         </footer>
     </div>
 
-    <script src="/js/app.js"></script>
+    <footer class="footer">
+        <p>Contact: email@ucl.ac.uk | Github: www.casa.ucl.ac.uk</p>
+        <p>Twitter: @frogo | Current Location: UCL | Facebook Link</p>
+    </footer>
 
     <!-- Google Maps API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=geometry&callback=initMap" async defer></script>
-    <script>
-        let map;
-        let markers = [];
-        let currentLocation = { lat: 37.7749, lng: -122.4194 }; // Default to San Francisco
-
-        // Initialize Google Map
-        function initMap() {
-            map = new google.maps.Map(document.getElementById("map"), {
-                center: currentLocation,
-                zoom: 12,
-            });
-
-            // Load initial markers
-            loadMarkers(currentLocation, 20); // Default to 20 km radius
-        }
-
-        // Load markers within a specified radius
-        function loadMarkers(center, radius) {
-            clearMarkers();
-
-            // Example data: accommodation locations (replace with real data as needed)
-            const accommodations = [
-                { position: { lat: 37.7749, lng: -122.4194 }, name: "Accommodation 1" },
-                { position: { lat: 37.7849, lng: -122.4294 }, name: "Accommodation 2" },
-                { position: { lat: 37.7949, lng: -122.4394 }, name: "Accommodation 3" }
-            ];
-
-            // Calculate distance and display markers within the radius
-            accommodations.forEach((acc) => {
-                const distance = google.maps.geometry.spherical.computeDistanceBetween(
-                    new google.maps.LatLng(center.lat, center.lng),
-                    new google.maps.LatLng(acc.position.lat, acc.position.lng)
-                );
-
-                if (distance <= radius * 1000) {
-                    const marker = new google.maps.Marker({
-                        position: acc.position,
-                        map: map,
-                        title: acc.name
-                    });
-
-                    marker.addListener("click", () => {
-                        document.getElementById("accommodation-info").textContent = acc.name;
-                        document.getElementById("more-info-link").setAttribute("href", "#"); // Link to details
-                    });
-
-                    markers.push(marker);
-                }
-            });
-        }
-
-        // Clear all markers from the map
-        function clearMarkers() {
-            markers.forEach(marker => marker.setMap(null));
-            markers = [];
-        }
-
-        // Set distance and reload markers within the selected radius
-        function setDistance(m) {
-            loadMarkers(currentLocation, m);
-            alert(`Showing accommodations within ${m} m`);
-        }
-
-        // Search for a location and recenter the map
-        function searchLocation() {
-            const destination = document.getElementById("destination").value;
-            if (destination) {
-                const geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ address: destination }, (results, status) => {
-                    if (status === "OK") {
-                        currentLocation = results[0].geometry.location;
-                        map.setCenter(currentLocation);
-                        loadMarkers(currentLocation, 20); // Reset to 20 km or chosen distance
-                    } else {
-                        alert("Location not found: " + status);
-                    }
-                });
-            }
-        }
-
-        // Event listener for the search button
-        document.getElementById("search-button").addEventListener("click", searchLocation);
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBleoptuqG4muN960mY7UWdTUljJi_Fycc&libraries=geometry,places&callback=initMap" async defer></script>
+    <!-- The Groups script for map -->>
+    <script src="js/map.js"></script>
 </body>
+
 </html>
