@@ -1,8 +1,5 @@
 FROM node:18
 
-# Install lsof
-RUN apt-get update && apt-get install -y lsof
-
 WORKDIR /app
 
 COPY package*.json ./

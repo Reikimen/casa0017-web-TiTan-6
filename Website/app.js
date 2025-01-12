@@ -2,21 +2,22 @@ import  { config } from 'dotenv';
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url'
-import { updateDataBase } from './google-map/mapquery.js'
-import { getUCLBuildingsFromData, getAccommodationsFromData, getAccommodationsRoutesForBuilding, getAccommodationRouteTo } from './data/dataFunctions.js';
+import { updateDataBase } from './backend/google-map/mapquery.js'
+import { getUCLBuildingsFromData, getAccommodationsFromData, getAccommodationsRoutesForBuilding, getAccommodationRouteTo } from './backend/data/dataFunctions.js';
 
 config();
+
+console.log(process.env.PORT); // This should print the port number
+// Fix for __dirname not defined in ES6 modules
+const __filename = fileURLToPath(import.meta.url); 
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT;
 
-// Fix for __dirname not defined in ES6 modules
-const __filename = fileURLToPath(import.meta.url); 
-const __dirname = path.dirname(__filename);
-
 // //Serving static files from frontend
-app.use(express.static(path.join(__dirname, '../front-end')));
+app.use(express.static(path.join(__dirname, 'frontend')));
 
 //Listen for requests from the client
 app.listen(PORT, () => {
