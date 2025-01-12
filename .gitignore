@@ -102,3 +102,17 @@ dist
 
 # TernJS port file
 .tern-port
+
+# MAC
+.DS_Store
+
+# Ignore all files in Website/mysql/data directory
+Website/mysql/data/*
+
+# Except for users.ibd in the mydatabase directory
+!Website/mysql/data/mydatabase/
+!Website/mysql/data/mydatabase/**
+
+# But continue to ignore all other files in the mydatabase directory except users.ibd
+Website/mysql/data/mydatabase/places.ibd
+Website/mysql/data/mydatabase/routes.ibd
